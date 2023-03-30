@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 
+"""my fun"""
 
 def find_peak(list_of_integers):
-
+    """find peak """
+    
     if list_of_integers is None or len(list_of_integers) == 0:
         return None
 

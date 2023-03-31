@@ -4,20 +4,22 @@ list 10 commits (from the most recent to oldest) of the repository “rails”
 by the user “rails”
 """
 import requests
-import sys
+from sys import argv
 
-def main():
-    """
-    main function
-    """
-    repo_name = sys.argv[1]
-    owner_name = sys.argv[2]
-    url = f"https://api.github.com/repos/{owner_name}/{repo_name}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        print(response.json())
-    else:
-        print(f"Error: {response.status_code}")
 
 if __name__ == "__main__":
-    main()
+    """
+    list 10 commits (from the most recent to oldest) of the repository
+    “rails” by the user “rails”
+    """
+    repo = argv[1]
+    owner = argv[2]
+    url = 'https://api.github.com/repos/{}/{}/commits'.format(owner, repo)
+    r = requests.get(url)
+    res_list = r.json()
+    try:
+        for i in range(10):
+            print("{}: {}".format(res_list[i].get('sha'), res_list[i].
+                                  get('commit').get('author').get('name')))
+    except:
+        pass

@@ -1,7 +1,10 @@
 #!/usr/bin/node
+//fill
+
 const request = require('request');
 const episodeId = process.argv[2];
-const url = 'http://swapi.co/api/films/' + episodeId;
+
+const url = 'https://swapi-api.alx-tools.com/api/films/' + episodeId;
 
 function listOrderedCharacters (url) {
   request(url, function (error, response, body) {

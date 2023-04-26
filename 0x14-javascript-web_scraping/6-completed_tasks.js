@@ -1,17 +1,25 @@
 #!/usr/bin/node
-// gets contents of a webpage and stores it in a file.
-
+const request = require('request');
 const url = process.argv[2];
-const file = process.argv[3];
-const req = require('request');
-const fileStream = require('fs');
 
-req(url, function (error, response, body) {
-  if (error) {
-    console.log(error);
-  } else {
-    fileStream.writeFile(file, body, 'utf-8', (error) => {
-      if (error) console.log(error);
-    });
-  }
-});
+function taskDoneCount (url) {
+  request(url, function (error, response, body) {
+    if (error) {
+      console.log(error);
+    } else {
+      let taskDict = {};
+      let taskList = JSON.parse(body);
+      for (let i = 0; i < taskList.length; i++) {
+        if (taskList[i].completed === true) {
+          if (taskDict[taskList[i].userId] === undefined) {
+            taskDict[taskList[i].userId] = 1;
+          } else {
+            taskDict[taskList[i].userId]++;
+          }
+        }
+      }
+      console.log(taskDict);
+    }
+  });
+}
+taskDoneCount(url);

@@ -1,17 +1,24 @@
 #!/usr/bin/node
-// script that gets the contents of a webpage and stores it in a file.
+const request = require('request');
+const episodeId = process.argv[2];
+const url = 'http://swapi.co/api/films/' + episodeId;
 
-const url = process.argv[2];
-const file = process.argv[3];
-const req = require('request');
-const fileStream = require('fs');
-
-req(url, function (error, response, body) {
-  if (error) {
-    console.log(error);
-  } else {
-    fileStream.writeFile(file, body, 'utf-8', (error) => {
-      if (error) console.log(error);
-    });
-  }
-});
+function listCharacters (url) {
+  request(url, function (error, response, body) {
+    if (error) {
+      console.log(error);
+    } else {
+      let charList = JSON.parse(body).characters;
+      for (let j = 0; j < charList.length; j++) {
+        request(charList[j], function (error, response, body) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log(JSON.parse(body).name);
+          }
+        });
+      }
+    }
+  });
+}
+listCharacters(url);

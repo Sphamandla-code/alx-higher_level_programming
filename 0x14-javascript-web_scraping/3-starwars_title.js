@@ -1,4 +1,5 @@
 #!/usr/bin/node
+// script that display the status code of a GET request.
 const request = require('request');
 const id = process.argv[2];
 const url = 'http://swapi.co/api/films/' + id;
